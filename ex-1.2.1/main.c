@@ -1,11 +1,20 @@
-#include <SDL2/SDL.h>
+#include <SDL.h>
+#include <windows.h>
+#include <stdlib.h>
+
+#define MAX(x,y) x>=y?x:y
+#define MIN(x,y) x<=y?x:y
+
+/*usei windows.h só pra deixar em tela cheia*/
+#define SCREEN_WIDTH GetSystemMetrics(SM_CXSCREEN)
+#define SCREEN_HEIGHT GetSystemMetrics(SM_CYSCREEN)
 
 void desenharFlor(SDL_Renderer * ren, int x, int y, int r, int g, int b) {
     SDL_SetRenderDrawColor(ren, r, g, b, 0);
     SDL_Rect h = {x, y, 5, 7};
     SDL_RenderFillRect(ren, &h);
 
-    SDL_SetRenderDrawColor(ren, r+20, g+20, b+20, 0);
+    SDL_SetRenderDrawColor(ren, MIN(r+20,255), MIN(g+20,255), MIN(b+20,255), 0);
     SDL_Rect a = {x+5, y+7, 7, 5};
     SDL_RenderFillRect(ren, &a);
 
@@ -13,7 +22,7 @@ void desenharFlor(SDL_Renderer * ren, int x, int y, int r, int g, int b) {
     SDL_Rect f = {x+12, y, 5, 7};
     SDL_RenderFillRect(ren, &f);
     
-    SDL_SetRenderDrawColor(ren, r-20, g-20, b-20, 0);
+    SDL_SetRenderDrawColor(ren, MAX(r-20,0), MAX(g-20,0), MAX(b-20,0), 0);
     SDL_Rect c = {x+5, y-3, 7, 3};
     SDL_RenderFillRect(ren, &c);
 
@@ -24,27 +33,35 @@ void desenharFlor(SDL_Renderer * ren, int x, int y, int r, int g, int b) {
     SDL_SetRenderDrawColor(ren, 0, 200, 0, 0);
     SDL_Rect e = {x+7, y+12, 3, 6};
     SDL_RenderFillRect(ren, &e);
+    
+    int i, px, py;
+    SDL_SetRenderDrawColor(ren, 255, 155, 0, 0);
+    for (i = 0; i < 15; i++) {
+    	px = rand()%7;
+    	py = rand()%7;
+    	SDL_RenderDrawPoint(ren, x+5+px, y+py);
+	}
 }
 int main (int argc, char* args[])
 {
     /* INICIALIZACAO */
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_Window* win = SDL_CreateWindow("Hello World!",
-                         0,
-                         0,
-                         1320, 700, SDL_WINDOW_SHOWN
+                         SDL_WINDOWPOS_UNDEFINED,
+                         SDL_WINDOWPOS_UNDEFINED,
+                         SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN
                       );
     SDL_Renderer* ren = SDL_CreateRenderer(win, -1, 0);
 
-    /* EXECUÇÃO */
+    /* EXECUÃ‡ÃƒO */
     SDL_SetRenderDrawColor(ren, 0x00,0x66,0xFF,0x00);
     SDL_RenderClear(ren);
 
     SDL_SetRenderDrawColor(ren, 0xFF,0xFF,0x66,0x00);
-    SDL_Rect r = { 0,0, 1000,300 };
+    SDL_Rect r = { 0,0, 700, 300 };
     SDL_RenderFillRect(ren, &r);
-
-    SDL_SetRenderDrawColor(ren, 0x33,0x33,0x00,0x00);
+	
+    SDL_SetRenderDrawColor(ren, 0x55,0x55,0x00,0x00);
     SDL_Rect a = { 200,200, 100,100 };
     SDL_RenderFillRect(ren, &a);
 
@@ -63,20 +80,29 @@ int main (int argc, char* args[])
     SDL_SetRenderDrawColor(ren, 0x55,0x33,0,0x00);
     SDL_Rect e = { 285,205, 5,95 };
     SDL_RenderFillRect(ren, &e);
+    
+    SDL_SetRenderDrawColor(ren, 0, 0, 0, 0);
+    SDL_RenderDrawLine(ren, 200, 200, 200, 300);
+    SDL_RenderDrawLine(ren, 200, 200, 300, 200);
+    SDL_RenderDrawLine(ren, 300, 200, 300, 300);
+    
+    SDL_RenderDrawLine(ren, 205, 205, 205, 300);
+    SDL_RenderDrawLine(ren, 205, 205, 295, 205);
+    SDL_RenderDrawLine(ren, 295, 205, 295, 300);
+    
+    SDL_RenderDrawLine(ren, 200, 299, 300, 299);
 
     SDL_SetRenderDrawColor(ren, 0,0x66,0,0x00);
-    SDL_Rect f = { 0,300, 1320,400 };
+    SDL_Rect f = { 0,300, SCREEN_WIDTH,SCREEN_HEIGHT};
     SDL_RenderFillRect(ren, &f);
+    
     
     int i,j;
     for(i = 0; i < 30; i++) {
         for(j = 0; j < 10; j++) {
-            desenharFlor(ren, (500+337*(i+j))%1320, 300+(258*(j*i))%400, 210-j*15, (30+j*i)%100, 20+j*20);
+            desenharFlor(ren, (500+317*(i+j))%SCREEN_WIDTH, 300+(257*(i+j+i*j))%(SCREEN_HEIGHT-300), 210-j*15, (30+j*i)%100, 20+j*20);
         }
     }
-
-
-
 
     SDL_RenderPresent(ren);
     SDL_Delay(5000);
