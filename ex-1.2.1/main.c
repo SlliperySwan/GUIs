@@ -1,13 +1,11 @@
 #include <SDL.h>
-#include <windows.h>
 #include <stdlib.h>
 
 #define MAX(x,y) x>=y?x:y
 #define MIN(x,y) x<=y?x:y
 
-/*usei windows.h só pra deixar em tela cheia*/
-#define SCREEN_WIDTH GetSystemMetrics(SM_CXSCREEN)
-#define SCREEN_HEIGHT GetSystemMetrics(SM_CYSCREEN)
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 700
 
 void desenharFlor(SDL_Renderer * ren, int x, int y, int r, int g, int b) {
     SDL_SetRenderDrawColor(ren, r, g, b, 0);
