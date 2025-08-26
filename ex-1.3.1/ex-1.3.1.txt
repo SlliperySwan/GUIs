@@ -1,0 +1,7 @@
+Dois quadrados preenchidos, um azul e o outro vermelho, se movimentando entre 2 quadrados
+brancos. O movimento do quadrado azul é separado em 4 partes, sequenciais e ciclicas:
+1-Em direção ao eixo X positivo. 
+2-Em direção ao eixo Y positivo.
+3-Em direção ao eixo X negativo.
+4-Em direção ao eixo Y negativo.
+O quadrado vermelho sempre faz o movimento na direção contrária.
