@@ -1,1 +1,5 @@
-
+1. O quadrado aparece e desaparece repetidamente durante os frames, devido a primeira chamada
+do loop apresentar a tela branca vazia.
+2. Mesmo com o quadrado sendo desenhado no buffer, ele só aparece na tela com a chamada de
+SDL_RenderPresent(), que troca o buffer apresentado, pelo buffer secundário, que contem a ima-
+gem branca com o quadrado azul.
