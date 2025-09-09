@@ -7,10 +7,11 @@
 int AUX_WaitEventTimeoutCount(SDL_Event* evt, Uint32 * ms) {
 	Uint32 antes = SDL_GetTicks();
 	int isevt = SDL_WaitEventTimeout(evt, *ms);
-	
-	(*ms)-=(SDL_GetTicks()-antes);
-	if (*ms < 0)
-		(*ms) = 0;
+	Uint32 deltaEspera = SDL_GetTicks()-antes, novaEspera = *ms-deltaEspera;
+	if (novaEspera > *ms)
+		*ms = 0;
+	else
+		*ms -= deltaEspera;
 	return isevt;
 }
 
@@ -28,10 +29,8 @@ int main(int argc, char* args[]) {
 	SDL_Rect outerBox = {CX-51, CY-51, 127, 127};
 	SDL_Rect innerBox = {CX-25, CY-25, 75, 75};
 	
-	Uint32 espera;
     SDL_Event evt;
-    int isevt;
-    
+    Uint32 espera = 25;
 	while (!SDL_QuitRequested()) {
 		SDL_SetRenderDrawColor(ren,0,0,0,255);
 		SDL_RenderClear(ren);
@@ -45,8 +44,8 @@ int main(int argc, char* args[]) {
 		SDL_SetRenderDrawColor(ren,r,g,255-b,255);
 		SDL_RenderFillRect(ren, &rect2);
 		
-		espera = 50;
-		isevt = AUX_WaitEventTimeoutCount(&evt, &espera);
+		
+		int isevt = AUX_WaitEventTimeoutCount(&evt, &espera);
 		if (isevt) {
 	        if (evt.type == SDL_KEYDOWN) {
 	            switch (evt.key.keysym.sym) {
@@ -85,26 +84,27 @@ int main(int argc, char* args[]) {
 	                	g-=50;
 	                	b-=50;
 	            }
-	        } else {
-	        	SDL_Delay(espera);
-			}
+	        }
 		} 
-		if (i%80 < 20) {
-			rect1.x += 5;
-			rect2.x -= 5;
-		} else if (i%80 < 40) {
-			rect1.y += 5;
-			rect2.y -= 5;
-		} else if (i%80 < 60) {
-			rect1.x -= 5;
-			rect2.x += 5;
-		} else {
-			rect1.y -= 5;
-			rect2.y += 5;
+		if (espera == 0) {
+			if (i%80 < 20) {
+				rect1.x += 5;
+				rect2.x -= 5;
+			} else if (i%80 < 40) {
+				rect1.y += 5;
+				rect2.y -= 5;
+			} else if (i%80 < 60) {
+				rect1.x -= 5;
+				rect2.x += 5;
+			} else {
+				rect1.y -= 5;
+				rect2.y += 5;
+			}
+			i++;
+			espera = 25;
 		}
 		
 		SDL_RenderPresent(ren);
-		i++;
 	}	
 	
 	SDL_DestroyRenderer(ren);
