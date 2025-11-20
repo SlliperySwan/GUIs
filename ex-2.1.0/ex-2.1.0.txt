@@ -1,0 +1,7 @@
+Sempre que ocorre um click múltiplo (mais de 1 click, cada um com menos de 250ms do anterior, no mesmo pixel) aparece um círculo com raio proporcional ao número de clicks.
+A cor de cada círculo fica mais azul conforme a quantidade de clicks, começando no vermelho e eventualmente, quando o número se torna muito alto, retorna ao vermelho.
+O número de círculos máximo é 30, qualquer um criado após isso irá sobrescrever o mais velho.
+Os números que aparecem na tela são informações para depuração, os mais notáveis são:
+Primeiro número: Se o programa está ou não está contando clicks (1 = sim)
+Segundo número: Contagem atual de clicks
+Último número: Contagem de círculos criados desde o inicio do programa.
