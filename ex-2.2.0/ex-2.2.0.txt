@@ -1,0 +1,4 @@
+Apertar o botão esquerdo do mouse e soltá-lo enquanto ainda está na mesma posição é considerado um click.
+Pressionar o botão esquerdo do mouse em cima do quadrado azul enquanto move o mouse, irá arrastá-lo. Se soltar o mouse depois de mover o quadrado, ele ficará na mesma posição. Pelo contrário, se apertar ESC enquanto pressiona o botão esquerdo, o quadrado volta para a posição que estava antes de ser arrastado.
+A mensagem no canto superior esquerdo da tela indica a ação sendo realizada.
+Obs.: apertar ESC depois que o mouse já foi solto não fará nada.
